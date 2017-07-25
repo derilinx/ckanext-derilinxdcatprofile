@@ -81,6 +81,9 @@ setup(
     entry_points='''
         [ckan.plugins]
         derilinxdcatprofile=ckanext.derilinxdcatprofile.plugin:DerilinxdcatprofilePlugin
+        
+        [ckan.rdf.profiles]
+        derilinx_dcat_ap=ckanext.derilinxdcatprofile.profiles:DerilinxDCATAPProfile
 
         [babel.extractors]
         ckan = ckan.lib.extract:extract_ckan
