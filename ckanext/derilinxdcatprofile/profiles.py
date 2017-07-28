@@ -10,12 +10,10 @@ VCARD = Namespace("http://www.w3.org/2006/vcard/ns#")
 class DerilinxDCATAPProfile(RDFProfile):
         '''
         An RDF profile for Derilinx portals for expanded DCAT-AP export
-
         It requires the European DCAT-AP profile (`euro_dcat_ap`)
         '''
 
         def parse_dataset(self, dataset_dict, dataset_ref):
-
             return dataset_dict
 
         def graph_from_dataset(self, dataset_dict, dataset_ref):
@@ -71,5 +69,4 @@ class DerilinxDCATAPProfile(RDFProfile):
                 g.add((contact_details, RDF.type, VCARD.Organization))
                 g.add((dataset_ref, DCAT.contactPoint, contact_details))
                 g.add((contact_details, VCARD.hasTelephone, Literal(telephone_text)))
-
 
