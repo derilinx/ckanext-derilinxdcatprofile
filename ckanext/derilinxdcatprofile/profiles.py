@@ -6,6 +6,7 @@ DCT = Namespace("http://purl.org/dc/terms/")
 DCAT = Namespace("http://www.w3.org/ns/dcat#")
 SCHEMA = Namespace('http://schema.org/')
 VCARD = Namespace("http://www.w3.org/2006/vcard/ns#")
+FOAF = Namespace("http://xmlns.com/foaf/0.1/")
 
 class DerilinxDCATAPProfile(RDFProfile):
         '''
@@ -13,8 +14,14 @@ class DerilinxDCATAPProfile(RDFProfile):
         It requires the European DCAT-AP profile (`euro_dcat_ap`)
         '''
 
-        def parse_dataset(self, dataset_dict, dataset_ref):
-            return dataset_dict
+        def graph_from_catalog(self, catalog_dict, catalog_ref):
+
+            g = self.g
+
+            publisher_ref = BNode()
+            g.add((catalog_ref, DCT.publisher, publisher_ref))
+            g.add((publisher_ref, RDF.type, FOAF.Agent))
+            g.add((publisher_ref, FOAF.name, Literal("Health Service Executive")))
 
         def graph_from_dataset(self, dataset_dict, dataset_ref):
 
