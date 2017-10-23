@@ -21,7 +21,7 @@ class DerilinxDCATAPProfile(RDFProfile):
             publisher_ref = BNode()
             g.add((catalog_ref, DCT.publisher, publisher_ref))
             g.add((publisher_ref, RDF.type, FOAF.Agent))
-            g.add((publisher_ref, FOAF.name, Literal("Health Service Executive")))
+            g.add((publisher_ref, FOAF.name, Literal("SmartDublin")))
 
         def graph_from_dataset(self, dataset_dict, dataset_ref):
 
@@ -32,6 +32,8 @@ class DerilinxDCATAPProfile(RDFProfile):
             telephone_text = self._get_dataset_value(dataset_dict, 'contact_phone')
             license_url = self._get_dataset_value(dataset_dict, 'license_url')
             rights_text = self._get_dataset_value(dataset_dict, 'rights')
+            theme = self._get_dataset_value(dataset_dict, 'category')
+            theme_uri = self._get_dataset_value(dataset_dict, 'category_uris')
 
             for dataset in g.subjects(RDF.type, DCAT.Dataset):
                 for r in g[dataset]:
@@ -59,7 +61,9 @@ class DerilinxDCATAPProfile(RDFProfile):
                             g.add((rights_ref, RDF.type, DCT.RightsStatement))
                             g.add((r[1], DCT.rights, rights_ref))
                             g.add((rights_ref, SKOS.prefLabel, Literal(rights_text)))
-            
+
+            g.add((dataset_ref, DCAT.theme, URIRef("http://publications.europa.eu/resource/authority/data-theme/AGRI")))# + theme_uri[1:])))
+
             if not temporaldone and temporal_text:
                 temporal_extent = BNode()                   
                 g.add((temporal_extent, RDFS.label, Literal(temporal_text)))
@@ -76,4 +80,5 @@ class DerilinxDCATAPProfile(RDFProfile):
                 g.add((contact_details, RDF.type, VCARD.Organization))
                 g.add((dataset_ref, DCAT.contactPoint, contact_details))
                 g.add((contact_details, VCARD.hasTelephone, Literal(telephone_text)))
+             
 
